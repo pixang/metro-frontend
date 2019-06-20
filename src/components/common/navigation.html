@@ -40,7 +40,7 @@
                     </ul>
             </li>
    
-            <li ui-sref-active="active"><!---->
+            <li ui-sref-active="active" ng-show="currentUser.userrole"><!---->
                     <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> <span class="nav-label">系统设置</span>
                     <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
@@ -48,10 +48,10 @@
                         <li><a ui-sref="index.systemconfigurationflag">系统标定值设定</a></li>
                     </ul>
             </li>
-            <li ui-sref-active="active">
+            <li ui-sref-active="active" ng-show="currentUser.userrole">
                 <a ui-sref="index.devicestatus"><i class="fa fa-cogs"></i> <span class="nav-label">设备状态</span></a>
             </li>
-            <li ui-sref-active="active">
+            <li ui-sref-active="active" ng-show="currentUser.userrole">
                     <a href=""><i class="fa fa-male"></i> <span class="nav-label">用户管理</span>
                     <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
