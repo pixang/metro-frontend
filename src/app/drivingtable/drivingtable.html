@@ -1,0 +1,454 @@
+<div ng-if="showReportSearch">
+    <div class="row wrapper border-bottom bg-gray-lighter page-heading">
+        <div class="col-lg-10">
+            <h2 class="second-header">行车报表</h2>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+    <div class="real-content wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <form role="form" name="myForm">
+                        <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                    </form>
+
+                    <div class="ibox-content main-dialog-box" style="margin-top: 20px;border-radius: 16px;background: rgb(255,255,255);padding: 0px 0px 0px 0px;">
+                        <div class="text-center" ng-show="formSearch.isLoading">
+                            <img src="assets/images/loading.gif" />
+                        </div>
+                        <div class="table-responsive" ng-show="formSearch.isLoaded && !formSearch.isLoading">
+                            <table class="footable-driving-table footable table table-stripped toggle-arrow-tiny">
+                                <thead>
+                                    <tr>
+                                        <th data-sort-ignore="true">主控端</th>
+                                        <th>行驶方向</th>
+                                        <th>左齿最小</th>
+                                        <th>右齿最小</th>
+
+                                        <th>左槽楔最大</th>
+                                        <th>右槽楔最大</th>
+
+                                        <th>左槽深最小</th>
+                                        <th>右槽深最小</th>
+
+                                        <th>左槽隙最大深度</th>
+                                        <th>右槽隙最大深度</th>
+
+                                        <th>左排障器最小</th>
+                                        <th>右排障器最小</th>
+                                        <th>状态</th>
+                                        <th data-sorted="true">时间</th>
+                                        <th data-sort-ignore="true" data-sortable="false">报表</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="animate-repeat" ng-repeat="reportRecord in reportRecords">
+                                        <td>{{reportRecord.controlNum}}</td>
+                                        <td>{{reportRecord.trainDirection}}</td>
+                                        <td ng-class="{ redState : reportRecord.lgapStatus == 2,
+                                                                    orangeState : reportRecord.lgapStatus == 1}">{{reportRecord.lgapMin}}</td>
+                                        <td ng-class="{ redState : reportRecord.rgapStatus == 2,
+                                                                    orangeState : reportRecord.rgapStatus == 1}">{{reportRecord.rgapMin}}</td>
+
+                                        <td ng-class="{ redState : reportRecord.lslothMaxStatus == 2,
+                                                                    orangeState : reportRecord.lslothMaxStatus == 1}">{{reportRecord.lslothMax}}</td>
+                                        <td ng-class="{ redState : reportRecord.rslothMaxStatus == 2,
+                                                                    orangeState : reportRecord.rslothMaxStatus == 1}">{{reportRecord.rslothMax}}</td>
+
+                                        <td ng-class="{ redState : reportRecord.lslotStatus == 2,
+                                                                    orangeState : reportRecord.lslotStatus == 1}">{{reportRecord.lslotMin}}</td>
+                                        <td ng-class="{ redState : reportRecord.rslotStatus == 2,
+                                                                    orangeState : reportRecord.rslotStatus == 1}">{{reportRecord.rslotMin}}</td>
+
+                                        <td ng-class="{ redState : reportRecord.lslotMaxStatus == 2,
+                                                                    orangeState : reportRecord.lslotMaxStatus == 1}">{{reportRecord.lslotMax}}</td>
+                                        <td ng-class="{ redState : reportRecord.rslotMaxStatus == 2,
+                                                                    orangeState : reportRecord.rslotMaxStatus == 1}">{{reportRecord.rslotMax}}</td>
+
+                                        <td ng-class="{ redState : reportRecord.lpilotMinStatus == 2,
+                                                                    orangeState : reportRecord.lpilotMinStatus == 1}">{{reportRecord.lpilotMin}}</td>
+                                        <td ng-class="{ redState : reportRecord.rpilotMinStatus == 2,
+                                                                    orangeState : reportRecord.rpilotMinStatus == 1}">{{reportRecord.rpilotMin}}</td>
+
+
+                                        <td>{{reportRecord.trainState}}</td>
+
+                                        <td>{{reportRecord.trainDate}}</td>
+                                        <td>
+                                            <a class="fa fa-table" aria-hidden="true" ng-click="getMotorData($index)"></a>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>
+                                            <select class="pull-left custom-pagesize form-control" ng-change="onChange()" ng-model='pagination.pageSize' ng-options='pageSize.value as pageSize.name for pageSize in pageSizes'></select>
+                                        </td>
+                                        <td colspan="17">
+                                            <ul class="custom-pagination pull-right">
+                                                <li ng-class="{ disabled : pagination.current == 1 }">
+                                                    <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                                                </li>
+                                                <li ng-class="{ disabled : pagination.current == 1 }" class="ng-scope">
+                                                    <a href="" ng-click="setCurrent(pagination.current - 1)" class="ng-binding">‹</a>
+                                                </li>
+                                                <li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+                                                    <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                                                </li>
+
+                                                <li ng-class="{ disabled : pagination.current == pagination.totalPages }" class="ng-scope">
+                                                    <a href="" ng-click="setCurrent(pagination.current + 1)" class="ng-binding">›</a>
+                                                </li>
+                                                <li ng-class="{ disabled : pagination.current == pagination.totalPages }">
+                                                    <a href="" ng-click="setCurrent(pagination.totalPages)">&raquo;</a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div ng-if="!hideDetailMotorData">
+    <div class="row wrapper border-bottom bg-gray-lighter page-heading">
+        <div class="col-lg-10">
+            <h2 class="second-header">详细电机报表
+                <span>(以下每个电机的最低值以每个齿数据为主)</span>
+            </h2>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+    
+    <div class="real-content wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+
+                        <div class="col-md-12" ng-show="formSearch.isLoaded && !formSearch.isLoading">
+                            <div class="col-md-9" style="
+                                                    padding-left:  0;
+                                                    padding-right: 0;">
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">线路：</p>
+                                    <h3 class="main-dialog-title-value">{{line}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">车号：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainId}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">主控端：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.controlNum}}</h3>
+                                </div>
+
+                                <div class="col-md-2 md-item-text md-whiteframe-z1 main-dialog-children" flex>
+                                    <p class="main-dialog-title">站点：</p>
+                                    <h3 class="main-dialog-title-value">{{station}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">安装点</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainDirection}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">状态</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainState}}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                <p class="main-dialog-title">行车时间</p>
+                                <h3 class="main-dialog-title-value">{{trianDateForMotor}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content main-dialog-box" style="margin-top: 20px;border-radius: 16px;background: rgb(255,255,255);padding: 0px 0px 0px 0px;">
+
+                        <div class="text-center" ng-show="formSearch.isLoading">
+                                <img src="assets/images/loading.gif" />
+                        </div>
+                        <div class="table-responsive" ng-show="formSearch.isLoaded && !formSearch.isLoading">
+                            <table class="footable footable-for-motor table table-stripped toggle-arrow-tiny">
+                                <thead>
+                                <tr>
+                                    <th data-toggle="true" data-type="numeric">电机号</th>
+                                    <th>左齿最低高度</th>
+                                    <th>右齿最低高度</th>
+                                    <th>左槽隙最低深度</th>
+                                    <th>右槽隙最低深度</th>
+                                    <th>左槽楔最大</th>
+                                    <th>右槽楔最大</th>
+                                    <th>左排障器高度</th>
+                                    <th>右排障器高度</th>
+                                    <th>左槽隙最大深度</th>
+                                    <th>右槽隙最大深度</th>
+                                    <th>最大温度</th>
+                                    <th>速度</th>
+                                    <th>四角差值</th>
+                                    <th data-sort-ignore="true">波形</th>
+                                    <th data-sort-ignore="true">数据</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr ng-repeat="record in detailMotorRecords.result">
+                                    <td>{{$index + 1}}</td>
+                                    <td ng-class="{ redState : record.lgapStatus == 2,
+                                                                    orangeState : record.lgapStatus == 1}">{{record.lgapMin}}</td>
+                                    <td ng-class="{ redState : record.rgapStatus == 2,
+                                                                    orangeState : record.lgapStatus == 1}">{{record.rgapMin}}</td>
+
+                                    <td ng-class="{ redState : record.lslotMinStatus == 2,
+                                                                    orangeState : record.lslotMinStatus == 1}">{{record.lslotMin}}</td>
+                                    <td ng-class="{ redState : record.rslotMinStatus == 2,
+                                                                    orangeState : record.rslotMinStatus == 1}">{{record.rslotMin}}</td>
+
+                                    <td ng-class="{ redState : record.lslothMaxStatus == 2,
+                                                                    orangeState : record.lslothMaxStatus == 1}">{{record.lslothMax}}</td>
+                                    <td ng-class="{ redState : record.rslothMaxStatus == 2,
+                                                                    orangeState : record.rslothMaxStatus == 1}">{{record.rslothMax}}</td>
+
+                                    <td ng-class="{ redState : record.lpilotMinStatus == 2,
+                                                                    orangeState : record.lpilotStatus == 1}">{{record.lpilotValue}}</td>
+                                    <td ng-class="{ redState : record.rpilotMinStatus == 2,
+                                                                    orangeState : record.rpilotStatus == 1}">{{record.rpilotValue}}</td>
+
+
+                                    <td ng-class="{ redState : record.lslotMaxStatus == 2,
+                                                                    orangeState : record.lslotMaxStatus == 1}">{{record.lslotMax}}</td>
+                                    <td ng-class="{ redState : record.rslotMaxStatus == 2,
+                                                                    orangeState : record.rslotMaxStatus == 1}">{{record.rslotMax}}</td>
+
+                                    <td ng-class="{ redState : record.tempMaxStatus == 2,
+                                                                    orangeState : record.tempMaxStatus == 1}">{{record.tempMax}}</td>
+                                    <td>{{record.motorSpeed}}</td>
+
+                                    <td ng-class="{ redState : report.excStatus == 2,
+                                                                    orangeState : report.excStatus == 1}">{{record.excValue}}</td>
+                                    <td>
+                                        <a class="fa fa-line-chart" aria-hidden="true" ng-click="getMotorWave($index)"></a>
+                                    </td>
+                                    <td>
+                                        <a class="fa fa-table" aria-hidden="true" ng-click="getMotorTable($index)"></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class="layout-row configuration-footer" style="margin: auto;width: 237px;">
+
+                                <md-button  class="md-raised" ng-click="backFromDetailMotorPage()" ng-disabed="formSearch.isLoading">
+                                    返回
+                                </md-button>
+                                <md-button  class="md-raised md-primary" ng-click="exportMotorData()" ng-disabed="formSearch.isLoading">
+                                    保存
+                                </md-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="showMotorWave">
+    <div class="row wrapper border-bottom bg-gray-lighter page-heading">
+            <div class="col-lg-5">
+                <h2 class="second-header">电机气隙波形图
+                    <span>（第 <select class="custom-pagesize form-control" ng-change="onChangeInChart()" ng-model='formSearch.motorNum' ng-options='motorNum as motorNum for motorNum in motorNums'></select>
+                        号电机）</span>
+                </h2>
+            </div>
+            <div class="col-lg-2">         
+            </div>
+    </div>
+    <div class="real-content wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                        
+                        <div class="col-md-12">
+                            <div class="col-md-9" style="
+                                                padding-left:  0;
+                                                padding-right: 0;">
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">线路：</p>
+                                    <h3 class="main-dialog-title-value">{{line}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">车号：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainId}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">主控端：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.controlNum}}</h3>
+                                </div>
+
+                                <div class="col-md-2 md-item-text md-whiteframe-z1 main-dialog-children" flex>
+                                    <p class="main-dialog-title">站点：</p>
+                                    <h3 class="main-dialog-title-value">{{station}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">安装点：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainDirection}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">预警值：</p>
+                                    <h3 class="redState main-dialog-title-value">{{detailMotorLaserRecords.gapWarn}}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                <p class="main-dialog-title">行车时间：</p>
+                                <h3 class="main-dialog-title-value">{{trianDateForMotor}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="formSearch.isLoading || formSearch.isLoaded" class="ibox-content main-dialog-box" style="margin-top: 20px;border-radius: 16px;background: rgb(255,255,255);padding: 0px 0px 0px 0px;">
+                        <div class="text-center" ng-show="formSearch.isLoading">
+                            <img src="assets/images/loading.gif" />
+                        </div>
+                        <div  ng-show="!formSearch.isLoading && formSearch.isLoaded">
+                            <div id="firstChart" style="margin-top: 10px;margin-left: 10px;margin-right:20px;height:675px"></div>
+                            <div id="secondChart" style="margin-top: 50px;margin-left: 10px;margin-right:20px;height:675px"></div>
+                        </div>
+                    </div>
+                    <div class="layout-row configuration-footer" style="margin: auto;width: 237px;">
+                        <md-button  class="md-raised" ng-click="backFromMotorWave()" ng-disabed="formSearch.isLoading" style="margin-left: 60px;">
+                            返回
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    
+    
+    
+<div ng-if="showMotorTable">
+    <div class="row wrapper border-bottom bg-gray-lighter page-heading">
+        <div class="col-lg-5">
+            <h2 class="second-header">详细电机报表
+                <span>（第 <select class="custom-pagesize form-control" ng-change="onChangeInTable()" ng-model='formSearch.motorNum' ng-options='motorNum as motorNum for motorNum in motorNums'></select>
+                    号电机报表）</span>
+            </h2>
+        </div>
+        <div class="col-lg-2">
+                
+        </div>
+    </div>
+
+    <div class="real-content wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                        
+                        <div class="col-md-12">
+                            <div class="col-md-9" style="
+                                                padding-left:  0;
+                                                padding-right: 0;">
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">线路：</p>
+                                    <h3 class="main-dialog-title-value">{{line}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">车号：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainId}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">主控端：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.controlNum}}</h3>
+                                </div>
+
+                                <div class="col-md-2 md-item-text md-whiteframe-z1 main-dialog-children" flex>
+                                    <p class="main-dialog-title">站点：</p>
+                                    <h3 class="main-dialog-title-value">{{station}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">安装点：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainDirection}}</h3>
+                                </div>
+                                <div class="col-md-2 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                    <p class="main-dialog-title">状态：</p>
+                                    <h3 class="main-dialog-title-value">{{detailMotorRecords.trainState}}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 md-item-text main-dialog-children md-whiteframe-z1" flex>
+                                <p class="main-dialog-title">行车时间：</p>
+                                <h3 class="main-dialog-title-value">{{trianDateForMotor}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content main-dialog-box" style="margin-top: 20px;border-radius: 16px;background: rgb(255,255,255);padding: 0px 0px 0px 0px;">
+                        <div class="text-center" ng-show="formSearch.isLoading">
+                                <img src="assets/images/loading.gif" />
+                        </div>
+                        <div class="table-responsive" ng-show="formSearch.isLoaded && !formSearch.isLoading">
+                            <table class="footable footable-for-gear table table-stripped toggle-arrow-tiny">
+                                <thead>
+                                    <tr>
+                                        <th data-toggle="true" data-type="numeric">齿号</th>
+                                        <th>左齿数值(mm)</th>
+                                        <th>右齿数值(mm)</th>
+                                        <th>左槽深数值</th>
+                                        <th>右槽深数值</th>
+                                        <th>左槽高数值</th>
+                                        <th>右槽高数值</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="animate-repeat" ng-repeat="record in detailMotorGearRecords">
+                                        <td>{{record.gearNum}}</td>
+                                        <td ng-class="{ redState : record.lgapStatus == 2,
+                                                        orangeState : record.lgapStatus == 1}">{{record.lgapValue}}</td>
+                                        <td ng-class="{ redState : record.rgapStatus == 2,
+                                                    orangeState : record.rgapStatus == 1}">{{record.rgapValue}}</td>
+                                        <td ng-class="{ redState : record.lslotdStatus == 2,
+                                                    orangeState : record.lslotdStatus == 1}">{{record.lslotDepth}}</td>
+                                        <td ng-class="{ redState : record.rslotdStatus == 2,
+                                                    orangeState : record.rslotdStatus == 1}">{{record.rslotDepth}}</td>
+                                        <td ng-class="{ redState : record.lslotStatus == 2,
+                                                    orangeState : record.lslotStatus == 1}">{{record.lslotValue}}</td>
+                                        <td ng-class="{ redState : record.rslotStatus == 2,
+                                                    orangeState : record.rslotStatus == 1}">{{record.rslotValue}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                   
+                        <div class="layout-row configuration-footer" style="margin: auto;width: 237px;">
+
+                                <md-button  class="md-raised" ng-click="backFromMotorTable()" ng-disabed="formSearch.isLoading">
+                                    返回
+                                </md-button>
+                                <md-button  class="md-raised md-primary" ng-click="exportMotorGearData()" ng-disabed="formSearch.isLoading">
+                                    保存
+                                </md-button>
+                        </div>
+                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

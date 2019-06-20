@@ -1,0 +1,75 @@
+<div class="row wrapper border-bottom bg-gray-lighter page-heading">
+    <div class="col-lg-10">
+        <h2 class="second-header">当日过车</h2>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="real-content wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <form role="form" name="myForm">
+                    <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                </form>
+
+                <div class="ibox-content main-dialog-box" style="margin-top: 20px;border-radius: 16px;background: rgb(255,255,255);padding: 0px 0px 0px 0px;">
+                    <div class="text-center" ng-show="form.isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div class="table-responsive" ng-show="form.isLoaded && !form.isLoading">
+                        <table class="footable-for-the-day footable table table-stripped toggle-arrow-tiny">
+                            <thead>
+                            <tr>
+                                <th>车号</th>
+                                <th>行车日期</th>
+                                <th>主控端</th>
+                                <th>电机号</th>
+                                <th>气隙最小值</th>
+                                <th>第三齿左气隙最小值</th>
+                                <th>第三齿右气隙最小值</th>
+                                <th>第73齿左气隙最小值</th>
+                                <th>第73齿右气隙最小值</th>
+                                <th>温度最小值</th>
+                                <th>温度最大值</th>
+                                <th data-sort-ignore="true" data-sortable="false">报表</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="animate-repeat" ng-repeat="record in currentDayRecords">
+                                <td>{{record.trainId}}</td>
+
+                                <td>{{record.trainDate}}</td>
+                                <td>{{record.controlNum}}</td>
+                                <td>{{record.motorNum}}</td>
+                                <td>{{record.gapminVal}}</td>
+                                <td>{{record.tlgapMin}}</td>
+                                <td>{{record.trgapMin}}</td>
+                                <td>{{record.slgapMin}}</td>
+                                <td>{{record.srgapMin}}</td>
+                                <td>{{record.tempMin}}</td>
+                                <td>{{record.tempMax}}</td>
+                                <td>
+                                    <a class="fa fa-table" aria-hidden="true" ng-click="goToMotorPage($index)"></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="layout-row configuration-footer" style="margin: auto;width: 237px;">
+
+                        <md-button  class="md-raised" ng-click="backToMainPage()" ng-disabled="form.isLoading">
+                            返回
+                        </md-button>
+                        <md-button  class="md-raised md-primary" ng-click="exportToCsv()" ng-disabled="form.isLoading || !form.isLoaded">
+                            保存
+                        </md-button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

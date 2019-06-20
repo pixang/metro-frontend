@@ -1,0 +1,193 @@
+<script src="../config.js"></script>
+<div class="row wrapper border-bottom bg-gray-lighter page-heading">
+    <div class="col-lg-10">
+        <h2 class="second-header">槽隙趋势查询表</h2>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
+<div class="real-content wrapper wrapper-content animated fadeInRight">
+    <div class="row" ng-controller="SlotTrendencySearchController">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title main-dialog-box" style="padding-top: 30px;border-radius: 13px;">
+                    <div class="row">
+                        <form role="form" name="myForm">
+                            <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                            <div class="form-group col-md-4">
+                                <div layout="row" ng-cloak class="md-inline-form">
+                                    <mdp-date-picker required="" mdp-placeholder="起始时间" ng-disabled="formSearch.isLoading" ng-model="formSearch.startTime"></mdp-date-picker>
+                                    <mdp-time-picker required="" mdp-auto-switch="true" ng-disabled="formSearch.isLoading" ng-model="formSearch.startTime"></mdp-time-picker>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div layout="row" ng-cloak class="md-inline-form">
+                                    <mdp-date-picker required="" mdp-placeholder="终止时间" ng-disabled="formSearch.isLoading" ng-model="formSearch.endTime"></mdp-date-picker>
+                                    <mdp-time-picker required="" mdp-auto-switch="true" ng-disabled="formSearch.isLoading" ng-model="formSearch.endTime"></mdp-time-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="float: right;">
+                                <md-button class="md-raised" ng-click="search()" ng-disabled="formSearch.isLoading" style="margin-left: 10px;min-width: 70px;height: 20px;margin-top: 2px;">搜索</md-button>
+                                <md-button class="md-raised" ng-click="exportSlotData()" ng-disabled="formSearch.isLoading || !formSearch.isLoaded" style="margin-left: 10px;min-width: 70px;height: 20px;margin-top: 2px;">报表</md-button>
+                            </div>
+                            <div class="form-group col-md-12" style="margin-left: 10px">
+
+
+                                <div class="col-md-8">
+                                    <div layout="row" ng-cloak class="md-inline-form">
+
+                                        <md-input-container class="md-block" style="width: 60px;">
+                                            <label>线路</label>
+                                            <input ng-model="line" disabled>
+                                        </md-input-container>
+
+                                        <div style="width: 125px;padding-left: 4px;">
+                                            <md-autocomplete  flex="" required="" ng-model="formSearch.trainId"
+                                                              md-input-name="autocompleteTrainId" md-min-length="0"
+                                                              md-selected-item="selectedTrainId"
+                                                              md-selected-item-change="selectedTrainIdChange(trainId)"
+                                                              md-search-text="inputTrainId"
+                                                              md-search-text-change="searchInputChange(inputTrainId)"
+                                                              md-items="trainId in querySearch(inputTrainId)"
+                                                              md-item-text="trainId" md-floating-label="列车号" ng-click="OpenMenu()"
+                                                              md-require-match>
+                                                <md-item-template>
+                                                    <span md-highlight-text="inputTrainId">{{trainId}}</span>
+                                                </md-item-template>
+                                                <div ng-messages="myForm.autocompleteTrainId.$error" ng-if="myForm.autocompleteTrainId.$touched">
+                                                    <div ng-message="required">此项<b>必需</b>填写</div>
+                                                    <div ng-message="md-require-match">该车号不存在，请重新填写</div>
+                                                </div>
+                                            </md-autocomplete>
+                                        </div>
+                                        <md-input-container style="min-width: 150px;">
+                                            <label>电机号</label>
+                                            <md-select required="" ng-disabled="formSearch.isLoading" name="motorNum" ng-model="formSearch.motorNum">
+                                                <md-option ng-repeat="motorNum in motorNums" ng-value="motorNum">
+                                                    {{motorNum}}
+                                                </md-option>
+                                            </md-select>
+                                            <div class="errors" ng-messages="myForm.motorNum.$error">
+                                                <div ng-message="required">电机号不能为空</div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <md-input-container style="min-width: 150px;">
+                                            <label>站点</label>
+                                            <md-select ng-model="station" disabled>
+                                                <md-option selected='select' ng-value="station">{{station}}</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container style="min-width: 150px; margin-left: 2px;">
+                                            <label>安装点</label>
+                                            <md-select required="" name="trainDirection" ng-disabled="formSearch.isLoading" ng-model="formSearch.trainDirection">
+                                                <md-option value="上行">上行</md-option>
+                                                <md-option value="下行">下行</md-option>
+                                            </md-select>
+                                            <div class="errors" ng-messages="myForm.trainDirection.$error">
+                                                <div ng-message="required">安装点不能为空</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <md-input-container>
+                                        <label>槽号</label>
+                                        <md-select required="" ng-disabled="formSearch.isLoading" name="firstSlot" ng-model="formSearch.firstSlot">
+                                            <md-option ng-repeat="slot in slots" ng-value="slot">
+                                                {{slot}}
+                                            </md-option>
+                                        </md-select>
+                                        <div class="errors" ng-messages="myForm.firstSlot.$error">
+                                            <div ng-message="required">请选择</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>槽号</label>
+                                        <md-select required="" ng-disabled="formSearch.isLoading" name="secondSlot" ng-model="formSearch.secondSlot">
+                                            <md-option ng-repeat="slot in slots" ng-value="slot">
+                                                {{slot}}
+                                            </md-option>
+                                        </md-select>
+                                        <div class="errors" ng-messages="myForm.secondSlot.$error">
+                                            <div ng-message="required">请选择</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="ibox-content main-dialog-box" style="margin-top: 20px;border-radius: 16px;background: rgb(255,255,255);padding: 0px 0px 0px 0px;">
+                    <div class="text-center" ng-show="formSearch.isLoading" style="margin-bottom: 40px;">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div class="table-responsive" ng-show="formSearch.isLoaded && !formSearch.isLoading">
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th>线路</th>
+                                    <th>列车号</th>
+                                    <th>站点</th>
+                                    <th>安装点</th>
+                                    <th>电机号</th>
+                                    <th>槽隙编号</th>
+                                    <th>左槽高度</th>
+                                    <th>右槽高度</th>
+                                    <th>左槽深度</th>
+                                    <th>右槽深度</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="slotTrendencyRecord in slotTrendencyRecords">
+                                    <td>{{slotTrendencyRecord.trainDate}}</td>
+                                    <td>{{line}}</td>
+                                    <td>{{slotTrendencyRecord.trainId}}</td>
+                                    <td>{{station}}</td>
+                                    <td>{{slotTrendencyRecord.trainDirection}}</td>
+                                    <td>{{slotTrendencyRecord.motorNum}}</td>
+                                    <td>{{slotTrendencyRecord.gearNum}}</td>
+                                    <td>{{slotTrendencyRecord.lslotValue}}</td>
+                                    <td>{{slotTrendencyRecord.rslotValue}}</td>
+                                    <td>{{slotTrendencyRecord.lslotDepth}}</td>
+                                    <td>{{slotTrendencyRecord.rslotDepth}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <select class="pull-left custom-pagesize form-control" ng-change="onChange()" ng-model='pagination.pageSize' ng-options='pageSize.value as pageSize.name for pageSize in pageSizes'></select>
+                                    </td>
+                                    <td colspan="10">
+                                        <ul class="custom-pagination pull-right">
+                                            <li ng-class="{ disabled : pagination.current == 1 }">
+                                                <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                                            </li>
+                                            <li ng-class="{ disabled : pagination.current == 1 }" class="ng-scope">
+                                                <a href="" ng-click="setCurrent(pagination.current - 1)" class="ng-binding">‹</a>
+                                            </li>
+                                            <li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+                                                <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                                            </li>
+
+                                            <li ng-class="{ disabled : pagination.current == pagination.totalPages }" class="ng-scope">
+                                                <a href="" ng-click="setCurrent(pagination.current + 1)" class="ng-binding">›</a>
+                                            </li>
+                                            <li ng-class="{ disabled : pagination.current == pagination.totalPages }">
+                                                <a href="" ng-click="setCurrent(pagination.totalPages)">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<div ng-if="showDashboard">
+    <div class="row wrapper border-bottom bg-gray-lighter page-heading">
+        <div class="col-lg-10">
+            <h2 class="second-header">系统页面</h2>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+
+    <div id="mainpage-content" class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title main-page-tips">
+                        <div class="row" style="padding: 5px 0px 5px 10px;">
+                            <table class="col-lg-12 table-stripped">
+                                <tbody>
+                                    <tr class="animate-repeat">
+                                        <td style="padding-right: 20px;height: 37px;text-align: left;">线路：</td>
+                                        <td>
+                                            <a class="normal parallel-icon"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>正常</span>
+                                        </td>
+                                        <td>
+                                            <a class="exceptionearlywarning parallel-icon"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>异常预警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon earlywarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>气隙预警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon warning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>气隙报警</span>
+                                        </td>
+
+                                        <td>
+                                            <a class="parallel-icon slotearlywarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>槽深预警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon slotwarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>槽深报警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon temperatureearlywarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>温度预警</span>
+                                        </td>
+
+                                        <td>
+                                            <a class="parallel-icon temperaturewarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>温度报警</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="animate-repeat">
+                                        <td style="
+                                padding-right: 50px;
+                                height: 37px;
+                                text-indent: 10px;
+                                font-weight: 700;
+                                font-size: 20px;
+                            ">
+                                            <span>{{line}}号线</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon exceptionwarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>异常报警</span>
+                                        </td>
+
+                                        <td>
+                                            <a class="parallel-icon slothearlywarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>槽楔预警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon slothwarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>槽楔报警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon pilotwarning"></a>
+                                        </td>
+                                        <td style="
+                                padding-right: 6px;text-align: left;">
+                                            <span>排障器报警</span>
+                                        </td>
+                                        <td>
+                                            <a class="parallel-icon pilotearlywarning"></a>
+                                        </td>
+                                        <td style="padding-right: 6px;text-align: left;">
+                                            <span>排障器预警</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="margin-top: 1px;border-radius: 10px;padding: 0px 0px 0px 0px;">
+                        <div style="padding-left: 0;padding-right: 0;float: left;">
+                            <table class="table-stripped">
+                                <tbody>
+                                    <tr class="animate-repeat left-column-content" ng-repeat="trainInfo in trainsInfo">
+                                        <td style="width: 83px;">{{trainInfo.trainId}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive" ng-show="!formSearch.isLoading">
+                            <table class="table" data-page-size="50" style="margin-bottom:0px">
+                                <tbody>
+                                    <tr class="animate-repeat" ng-repeat="trainInfo in trainsInfo" ng-init="outerIndex = $index">
+                                        <td style="opacity:1;width: 1px; height:47px;border-top: 0;border-bottom: 1px solid #e7eaec;"></td>
+                                        <td ng-repeat="trainOnly in trainInfo.trainDetail" ng-init="innerIndex = $index" style="width: 47px;border-top: 0;border-bottom: 1px solid #e7eaec;">
+                                            <a class="dashboard-icon" ng-click="openMainDialog(trainOnly.trainOnlyid,trainOnly.trainDirection,trainOnly.trainDate)"
+                                               data-toggle="tooltip" title="Hooray!" ng-mouseover="timeShow(trainOnly.trainDate)" ng-class="{
+                                                   upnormal : trainOnly.trainState == 11 && trainOnly.trainDirection == 0,
+                                                 downnormal : trainOnly.trainState == 11 && trainOnly.trainDirection == 1,
+                                    upexceptionearlywarning : trainOnly.trainState == 6 && trainOnly.trainDirection == 0,
+                                  downexceptionearlywarning : trainOnly.trainState == 6 && trainOnly.trainDirection == 1,
+                                       downexceptionwarning : trainOnly.trainState == 1 && trainOnly.trainDirection == 1,
+                                         upexceptionwarning : trainOnly.trainState == 1 && trainOnly.trainDirection == 0,
+
+                                           downslothwarning : trainOnly.trainState == 4 && trainOnly.trainDirection == 1,
+                                             upslothwarning : trainOnly.trainState == 4 && trainOnly.trainDirection == 0,
+                                      downslothearlywarning : trainOnly.trainState == 9 && trainOnly.trainDirection == 1,
+                                        upslothearlywarning : trainOnly.trainState == 9 && trainOnly.trainDirection == 0,
+
+                                             upearlywarning : trainOnly.trainState == 7 && trainOnly.trainDirection == 0,
+                                           downearlywarning : trainOnly.trainState == 7 && trainOnly.trainDirection == 1,
+                                                  upwarning : trainOnly.trainState == 2 && trainOnly.trainDirection == 0,
+                                                downwarning : trainOnly.trainState == 2 && trainOnly.trainDirection == 1,
+                                         upslotearlywarning : trainOnly.trainState == 8 && trainOnly.trainDirection == 0,
+                                       downslotearlywarning : trainOnly.trainState == 8 && trainOnly.trainDirection == 1,
+                                              upslotwarning : trainOnly.trainState == 3 && trainOnly.trainDirection == 0,
+                                            downslotwarning : trainOnly.trainState == 3 && trainOnly.trainDirection == 1,
+                                     downtemperaturewarning : trainOnly.trainState == 5 && trainOnly.trainDirection == 1,
+                                       uptemperaturewarning : trainOnly.trainState == 5 && trainOnly.trainDirection == 0,
+                                downtemperatureearlywarning : trainOnly.trainState == 10 && trainOnly.trainDirection == 1,
+                                  uptemperatureearlywarning : trainOnly.trainState == 10 && trainOnly.trainDirection == 0,
+
+                                  downpilotearlywarning : trainOnly.trainState == 12 && trainOnly.trainDirection == 1,
+                                  uppilotearlywarning : trainOnly.trainState == 12 && trainOnly.trainDirection == 0,
+                                  downpilotwarning : trainOnly.trainState == 13 && trainOnly.trainDirection == 1,
+                                  uppilotwarning : trainOnly.trainState == 13 && trainOnly.trainDirection == 0
+                                                 }"></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display:none;">
+                             <audio  class="alarm" ng-src="{{data.url}}" style="display: none">您的浏览器不支持html5</audio><br/><br/>
+                             <audio  class="device" src="../assets/images/device.wav" style="display: none">您的浏览器不支持html5</audio><br/><br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

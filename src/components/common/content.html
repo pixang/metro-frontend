@@ -1,0 +1,9 @@
+<div id="wrapper" class="all-wrapper">
+    <div ng-include="'components/common/navigation.html'"></div>
+    <div id="page-wrapper" class="gray-bg {{$state.current.name}}">
+        <div ng-include="'components/common/topnavbar.html'"></div>
+        <div style="margin-top: 61px;" ng-include="'app/main/main.html'"></div>
+        <div ui-view></div>
+        <div ng-include="'components/common/footer.html'"></div>
+    </div>
+</div>
