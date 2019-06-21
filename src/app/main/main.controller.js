@@ -155,7 +155,6 @@ module.controller('MainController', [
             }
         };
 
-        $scope.testcount = 0;
         // TRAIN_STATE:['异常报警','气隙报警','槽深报警','槽楔报警','温度报警','异常预警','气隙预警','槽深预警','槽楔预警','温度预警','正常']
         $scope.warningLight = function (currentState,trainId,trainOnlyId) {
             if (currentState !== 11) {
@@ -430,7 +429,7 @@ module.controller('MainController', [
 
         angular.element(document).ready(function () {
             if ($location.url() === '/index/main') {
-                $rootScope.$broadcast("ShowDashboard", "wusuowei");
+                $rootScope.$broadcast("ShowDashboard");
             }
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -455,13 +454,10 @@ module.controller('MainController', [
                     sessionStorage.removeItem('isRunning');
                     localStorage.removeItem("trainsInfo");
                 }
-                if ($cookies.get('currentUser')) {  
-                    // 移除当日过车
-                    // if (h + m === "2300") {
-                    //     $scope.openCurrentdayDialog();
-                    // }
-                    $scope.getTrainInfo();
-                }
+                // if (h + m === "2300") {
+                //     $scope.openCurrentdayDialog();
+                // }
+                $scope.getTrainInfo();
             }, 60 * 1000);
 
             // 整点报时
@@ -474,6 +470,7 @@ module.controller('MainController', [
                 next_clock();
                 console.log("整点报时2：  ", date);
                 $scope.timeAudio(date);
+                mainService.clockLight();
                 $interval.cancel(guid);
             }, $scope.gaptime);
 
