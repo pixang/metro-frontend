@@ -247,11 +247,11 @@ module.controller('MainController', [
             }
             else if (msg === "lose connect") {
                 $alert.clear();
-                $alert.info('与服务器失去连接', $rootScope);
+                $alert.error('与服务器失去连接', $rootScope);
             }
             else if (msg === "token timeout") {
                 $alert.clear();
-                $alert.info('登陆状态失效，请重新登陆', $rootScope);
+                $alert.error('登陆状态失效，请重新登陆', $rootScope);
             }
 
             $timeout(function () {
@@ -425,7 +425,7 @@ module.controller('MainController', [
             next.setHours(date.getHours()+1);
             next.setMinutes(0);
             next.setSeconds(0);
-            $scope.gaptime = next-date;
+            $scope.gaptime = next - date;
         };
 
         angular.element(document).ready(function () {
@@ -438,7 +438,6 @@ module.controller('MainController', [
                 $rootScope.$broadcast('ResizePage');
             });
 
-
             if ($cookies.get('currentUser')) {
                 $scope.getTrainInfo();
 
@@ -447,39 +446,44 @@ module.controller('MainController', [
             }
 
             $interval(function () {
+                // 移除缓存数据
+                var date = new Date();
+                var h = date.getHours() < 10 ? '0' + (date.getHours()) : '' + (date.getHours());
+                var m = date.getMinutes() < 10 ? '0' + (date.getMinutes()) : '' + (date.getMinutes());
+                if (h + m === "0300") {
+                    initTrainsInfo();
+                    sessionStorage.removeItem('isRunning');
+                    localStorage.removeItem("trainsInfo");
+                }
                 if ($cookies.get('currentUser')) {  
-                    var date = new Date();
-                    var h = date.getHours() < 10 ? '0' + (date.getHours()) : '' + (date.getHours());
-                    var m = date.getMinutes() < 10 ? '0' + (date.getMinutes()) : '' + (date.getMinutes());
-
                     // 移除当日过车
                     // if (h + m === "2300") {
                     //     $scope.openCurrentdayDialog();
                     // }
-
-                    if (h + m === "0300") {
-                        initTrainsInfo();
-                        sessionStorage.removeItem('isRunning');
-                        localStorage.removeItem("trainsInfo");
-                    }
                     $scope.getTrainInfo();
                 }
             }, 60 * 1000);
 
             // 整点报时
             $scope.setGapTime();
-            $timeout(function () {
+            var date = new Date();
+            console.log("整点报时1：  ", date);
+
+            var guid = $interval(function () {
                 var date = new Date();
                 next_clock();
+                console.log("整点报时2：  ", date);
                 $scope.timeAudio(date);
+                $interval.cancel(guid);
             }, $scope.gaptime);
 
             var next_clock = function(){
                 $interval(function(){
                     var date = new Date();
+                    console.log("整点报时3：  ", date);
                     $scope.timeAudio(date);
                     mainService.clockLight();
-                }, 3600000);
+                }, 3600 * 1000);
             };
 
             $rootScope.$broadcast('ResizePage');
@@ -555,7 +559,6 @@ module.controller('CurrentdayDialog', [
         });
 
         $scope.getCurrentDayData = function () {
-
             $alert.clear();
             $scope.form.setLoading(true);
             mainService.retrieveCurrentDayData().then(
@@ -678,7 +681,6 @@ module.controller('MainDialogController', [
 
                 },
                 function (err) {
-
                     $timeout(function () {
                         $scope.form.setLoading(false);
                     }, 1000);
@@ -730,7 +732,6 @@ module.controller('WarningDialogController', [
             $alert.clear();
 
             $scope.form.setLoading(true);
-
             mainService.retrieveAbnormalState(trainOnlyId).then(
                 function (abnormalInfo) {
                     if (typeof(abnormalInfo) === "string") {
@@ -757,7 +758,6 @@ module.controller('WarningDialogController', [
                     $scope.form.setLoading(false);
                 },
                 function (err) {
-
                     $timeout(function () {
                         $scope.form.setLoading(false);
                     }, 1000);

@@ -30,7 +30,6 @@ angular.module('supportAdminApp')
           );
       };
 
-
       MainService.retrieveTrainInfo = function() {
         var request = $http({
             method: 'GET',
@@ -167,8 +166,6 @@ angular.module('supportAdminApp')
             });
         };
         MainService.clockLight = function(){
-            console.log("关闭灯:  ");
-
             $http({
                 method: 'GET',
                 url: API_URL + '/getmapping/nowtime',
