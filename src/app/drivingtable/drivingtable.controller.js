@@ -233,7 +233,6 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
                     $scope.$broadcast('ReportDataUpdated');
                 },
                 function(err){
-                    $alert.error("服务器出错", $scope);
                     $scope.formSearch.setLoading(false);
                 }
             )
@@ -271,7 +270,7 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
                     $scope.$broadcast('DetailMotorDataUpdated');
                 },
                 function(err){
-
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -308,6 +307,7 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
                     $scope.$broadcast('DetailMotorGearRecordsUpdated');
                 },
                 function(err){
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -363,6 +363,7 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
                     $scope.$broadcast('DetailMotorLaserRecordsUpdated');
                 },
                 function(err){
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };

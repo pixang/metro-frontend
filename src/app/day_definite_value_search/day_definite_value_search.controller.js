@@ -107,7 +107,6 @@ module.controller("DayDefiniteValueSearchController", ['$scope', '$state','$root
                 $scope.$broadcast('ToothTableDataUpdated');
             },
             function(err){
-                $alert.error("服务器出错");
                 $scope.formSearch.setLoaded(false);
                 $scope.formSearch.setLoading(false);
             }

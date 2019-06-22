@@ -60,7 +60,7 @@ module.controller("DeviceStatus", ['$scope', '$state','$rootScope','$timeout','$
                     $scope.formSearch.setLoading(false);
                 },
                 function(err){
-                    $alert.error("服务器出错");
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };

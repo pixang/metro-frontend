@@ -143,7 +143,6 @@ module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$ro
                 $scope.$broadcast('SlotChartDataUpdated');
             },
             function(err){
-                $alert.error(err);
                 $scope.formSearch.setLoading(false);
             }
         )
@@ -151,7 +150,6 @@ module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$ro
 
     $scope.$on('SlotChartDataUpdated', function(event){
         $timeout(function(){
-            $rootScope.$broadcast('RecoverNavbar');
             $rootScope.$broadcast('ResizePage');
         }, 100);
     });
@@ -267,7 +265,7 @@ module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$ro
     });
 
     angular.element(document).ready(function() {
-        $rootScope.$broadcast("HideDashboard","");
+        $rootScope.$broadcast("HideDashboard");
         $rootScope.$broadcast('ResizePage');
       });
 }]);

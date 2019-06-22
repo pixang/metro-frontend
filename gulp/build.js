@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-const stripDebug = require('gulp-strip-debug');
+var stripDebug = require('gulp-strip-debug');
 
 var paths = gulp.paths;
 
@@ -95,4 +95,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'fontawesome', 'misc']);
+gulp.task('build', ['html', 'images','fonts', 'fontawesome', 'misc']);

@@ -124,7 +124,6 @@ angular.module('supportAdminApp')
               }
             },
             function(error) {
-              
               return $q.reject({error : error});
             }
           );
@@ -192,7 +191,6 @@ angular.module('supportAdminApp')
               else{
                 return response.data.msg;
               }
-
               return response.data;
             },
             function(error) {

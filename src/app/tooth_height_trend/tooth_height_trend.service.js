@@ -21,7 +21,7 @@ angular.module('supportAdminApp')
         });
         return request.then(
             function(response) {
-              if(response.data.code == 0){
+              if(response.data.code === 0){
                 return ToothHeightTrendService.createRecord(response.data.data);
               }
               else{
@@ -46,8 +46,7 @@ angular.module('supportAdminApp')
         });
         return request.then(
             function(response) {
-                console.log(JSON.stringify(response))
-              if(response.data.code == 0){
+              if(response.data.code === 0){
                 return ToothHeightTrendService.createRecordForChart(response.data.data, searchCondition);
               }
               else{
@@ -90,7 +89,7 @@ angular.module('supportAdminApp')
               strTime.slice(0,4)+'-'+strTime.slice(4,6)+'-'+strTime.slice(6,8)+ ' '+ 
               strTime.slice(8,10)+ ':' + strTime.slice(10,12)+':'+strTime.slice(12,14)
           );
-          if(data[i].gearNum1 == searchCondition.gearNum1){
+          if(data[i].gearNum1 === searchCondition.gearNum1){
             result.leftGearForY_0.push( Number(data[i].leftGear1.toFixed(2) ));
             result.rightGearForY_0.push(Number(data[i].rightGear1.toFixed(2)));
 
@@ -115,7 +114,7 @@ angular.module('supportAdminApp')
         record.trainStation = elem.trainStation;
         record.trainId = elem.trainId;
         record.motorNum = elem.motorNum;
-        record.trainDirection = elem.trainDirection == 0 ? "上行":"下行";
+        record.trainDirection = elem.trainDirection === 0 ? "上行":"下行";
         record.trainDate = elem.trainDate.slice(0,4)+'-'+elem.trainDate.slice(4,6)+'-'+elem.trainDate.slice(6,8)+ ' '+
                             elem.trainDate.slice(8,10)+ ':' + elem.trainDate.slice(10,12)+':'+elem.trainDate.slice(12,14);
         record.gearNum = elem.gearNum1;

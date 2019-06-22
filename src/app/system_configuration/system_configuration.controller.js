@@ -219,7 +219,7 @@ module.controller("SystemConfiguration", ['$scope', '$state','$rootScope','$time
                     $scope.formSearch.setLoading(false);
                 },
                 function(err){
-                    $alert.error("服务器出错，未能保存成功");
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -254,7 +254,7 @@ module.controller("SystemConfiguration", ['$scope', '$state','$rootScope','$time
                     $scope.formSearch.setLoading(false);
                 },
                 function(err){
-                    $alert.error("服务器出错");
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -263,13 +263,12 @@ module.controller("SystemConfiguration", ['$scope', '$state','$rootScope','$time
         $scope.searchThresholdData();
 
         $scope.backFromConfigurationPage = function() {
-            $rootScope.$broadcast("ShowDashboard","wusuowei");
+            $rootScope.$broadcast("ShowDashboard");
             $state.go('index.main');
         };
 
         angular.element(document).ready(function() {
-            $rootScope.$broadcast("HideDashboard","");
-            $rootScope.$broadcast('RecoverNavbar');
+            $rootScope.$broadcast("HideDashboard");
             $rootScope.$broadcast('ResizePage');
 
         });

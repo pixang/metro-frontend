@@ -104,7 +104,7 @@ module.controller("TempTrendController", ['$scope', '$state','$rootScope','$time
             err.push("查询条件有误，请检查");
         }
         if(err.length > 0){
-            $alert.error(err.join('! '))
+            $alert.error(err.join('! '));
             return
         }
         
@@ -133,9 +133,7 @@ module.controller("TempTrendController", ['$scope', '$state','$rootScope','$time
                 $scope.$broadcast('GearChartDataUpdated');
             },
             function(err){
-                $alert.error(err);
                 $scope.formSearch.setLoading(false);
-
             }
         )
     };

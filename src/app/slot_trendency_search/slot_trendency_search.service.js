@@ -20,7 +20,7 @@ angular.module('supportAdminApp')
         });
         return request.then(
             function(response) {
-              if(response.data.code == 0){
+              if(response.data.code === 0){
                 return SlotTrendencyService.createRecord(response.data.data);
               }
               else{
@@ -46,7 +46,7 @@ angular.module('supportAdminApp')
         });
         return request.then(
             function(response) {
-              if(response.data.code == 0){
+              if(response.data.code === 0){
                 return SlotTrendencyService.createRecordForChart(response.data.data, searchCondition);
               }
               else{

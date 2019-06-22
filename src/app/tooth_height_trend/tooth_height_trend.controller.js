@@ -108,7 +108,7 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
             err.push("查询条件有误，请检查");
         }
         if(err.length > 0){
-            $alert.error(err.join('! '))
+            $alert.error(err.join('! '));
             return
         }
         
@@ -148,8 +148,7 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
                 $scope.$broadcast('GearTableDataUpdated');
             },
             function(err){
-                $alert.error(err);
-                $scope.formSearch.setLoaded(true);
+                $scope.formSearch.setLoading(false);
             }
         )
     };
@@ -168,8 +167,8 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
         } else{
             err.push("结束时间不能为空");
         }
-        if ($scope.formSearch.trainId == "" || $scope.formSearch.motorNum =="" || $scope.formSearch.trainDirection == ""
-            || $scope.formSearch.gearNum1==""|| $scope.formSearch.gearNum2 == ""){
+        if ($scope.formSearch.trainId === "" || $scope.formSearch.motorNum ==="" || $scope.formSearch.trainDirection === ""
+            || $scope.formSearch.gearNum1=== ""|| $scope.formSearch.gearNum2 === ""){
             err.push("查询条件有误，请检查");
         }
         if(err.length > 0){
@@ -208,9 +207,7 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
                 $scope.$broadcast('GearChartDataUpdated');
             },
             function(err){
-                $alert.error(err);
                 $scope.formSearch.setLoading(false);
-
             }
         )
     };
@@ -251,8 +248,7 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
     $scope.$on('GearChartDataUpdated', function(event){
         var dafaultMenuItem = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
 
-        var firstChart = null;
-        firstChart = new Highcharts.Chart({
+        var firstChart = new Highcharts.Chart({
             chart: {
                 renderTo: 'firstChart',
                 type: 'spline',
@@ -426,7 +422,7 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
         }
     }
     angular.element(document).ready(function() {
-        $rootScope.$broadcast("HideDashboard","");
+        $rootScope.$broadcast("HideDashboard");
         $rootScope.$broadcast('ResizePage');
     });
 }]);

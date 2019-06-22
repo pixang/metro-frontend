@@ -578,12 +578,9 @@ module.controller('CurrentdayDialog', [
                     $scope.exportToCsv();
                 },
                 function (err) {
-                    $timeout(function () {
-                        $alert.error(err.error, $scope);
-                        $scope.exception = true;
-
-                        $scope.form.setLoading(false);
-                    }, 1000);
+                    $alert.error(err.error, $scope);
+                    $scope.exception = true;
+                    $scope.form.setLoading(false);
                 }
             )
         };
@@ -683,9 +680,7 @@ module.controller('MainDialogController', [
 
                 },
                 function (err) {
-                    $timeout(function () {
-                        $scope.form.setLoading(false);
-                    }, 1000);
+                    $scope.form.setLoading(false);
                 }
             )
         };
@@ -760,9 +755,7 @@ module.controller('WarningDialogController', [
                     $scope.form.setLoading(false);
                 },
                 function (err) {
-                    $timeout(function () {
-                        $scope.form.setLoading(false);
-                    }, 1000);
+                    $scope.form.setLoading(false);
                 }
             )
         };
@@ -847,13 +840,8 @@ module.controller('PasswordChangeController', [
                     }
                 },
                 function (err) {
-
-                    $timeout(function () {
-                        $alert.error(err.error, $scope);
-                        $scope.exception = true;
-
-                        $scope.form.setLoading(false);
-                    }, 1000);
+                    $scope.exception = true;
+                    $scope.form.setLoading(false);
                 }
             )
         };

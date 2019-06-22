@@ -104,7 +104,6 @@ module.controller('DetailMotorDataController', [
                 function(data){
                     if(typeof(data) == "string"){
                         $alert.error(data);
-
                         $scope.formSearch.setLoading(false);
                         return
                     }
@@ -114,7 +113,7 @@ module.controller('DetailMotorDataController', [
                     $scope.$broadcast('DetailMotorDataUpdated');
                 },
                 function(err){
-                    $alert.error(err);
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -151,6 +150,7 @@ module.controller('DetailMotorDataController', [
                     $scope.$broadcast('DetailMotorGearRecordsUpdated');
                 },
                 function(err){
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -203,6 +203,7 @@ module.controller('DetailMotorDataController', [
                     $scope.$broadcast('DetailMotorLaserRecordsUpdated');
                 },
                 function(err){
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };

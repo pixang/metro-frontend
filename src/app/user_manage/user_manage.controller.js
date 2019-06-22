@@ -10,7 +10,7 @@ module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$ui
         $('.footable').footable({ paginate:false });
     });
       
-    $scope.$on('UserTableUpdated', function(event){
+    $scope.$on('UserTableUpdated', function(){
         $timeout(function(){
             $('.footable').trigger('footable_redraw');
             $rootScope.$broadcast('ResizePage');   
@@ -31,16 +31,14 @@ module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$ui
         setLoading: function(loading) {
             this.isLoading = loading;
         }
-    }
+    };
  
     $scope.search = function() {
         $alert.clear();
-        var err = [];
-    
         $scope.formSearch.setLoading(true);
         userManageService.retrieveUser().then(
             function(data){
-                if(typeof(data) == "string"){
+                if(typeof(data) === "string"){
                     $alert.error(data);
                     $scope.formSearch.setLoading(false);
                     return
@@ -49,8 +47,7 @@ module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$ui
                 $scope.$broadcast('UserTableUpdated');
                 $scope.formSearch.setLoading(false);
             },
-            function(err){
-                $alert.error(err);
+            function(){
                 $scope.formSearch.setLoading(false);
             }
         )
@@ -69,7 +66,7 @@ module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$ui
     };
 
     angular.element(document).ready(function() {
-        $rootScope.$broadcast("HideDashboard","wusuowei");
+        $rootScope.$broadcast("HideDashboard");
         $scope.search();
         $rootScope.$broadcast('ResizePage');
     });
@@ -79,7 +76,7 @@ module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$ui
 module.controller('UserEditDialogController', [
     '$scope', '$rootScope', '$uibModalInstance', 'UserManageService', 'Alert', '$timeout','$cookies', 'user',
       function ($scope, $rootScope, $modalInstance, userManageService, $alert, $timeout,$cookies, user) {
-        $scope.currentUserRole = $cookies.get('currentUserRole')
+        $scope.currentUserRole = $cookies.get('currentUserRole');
        
         $scope.user = user;
         user.userrole = user.userrole.toString();
@@ -104,7 +101,7 @@ module.controller('UserEditDialogController', [
           $alert.clear();
           var userForSave = {};
 
-          if(user.userrole == $scope.form.userrole && user.userstate == $scope.form.userstate) {
+          if(user.userrole === $scope.form.userrole && user.userstate === $scope.form.userstate) {
             $alert.error('用户信息未被更改！', $scope);
             return;
           }
@@ -117,7 +114,7 @@ module.controller('UserEditDialogController', [
             $scope.form.setLoading(true);
             userManageService.saveUser(userForSave).then(
                 function(data){
-                    if(data == "更新成功"){
+                    if(data === "更新成功"){
                         user.userrole = parseInt($scope.form.userrole);
                         user.userstate = parseInt($scope.form.userstate);
                         $scope.form.setLoading(false);
@@ -131,7 +128,6 @@ module.controller('UserEditDialogController', [
                     }
                 },
                 function(err){
-                    $alert.error("服务器发生错误",$scope);
                     $scope.form.setLoading(false);
                 }
             );

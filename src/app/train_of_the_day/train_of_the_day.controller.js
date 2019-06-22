@@ -74,12 +74,8 @@ module.controller("TrainOfTheDayController", ['$scope', '$state','$rootScope','$
                     $scope.$broadcast('CurrentDayRecordUpdate');
                 },
                 function (err) {
-                    $timeout(function () {
-                        $alert.error(err.error, $scope);
-                        $scope.exception = true;
-
-                        $scope.form.setLoading(false);
-                    }, 1000);
+                    $scope.exception = true;
+                    $scope.form.setLoading(false);
                 }
             )
         };

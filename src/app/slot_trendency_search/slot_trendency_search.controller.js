@@ -157,8 +157,7 @@ module.controller("SlotTrendencySearchController", ['$scope', '$state','$rootSco
                 $scope.$broadcast('SlotTableDataUpdated');
             },
             function(err){
-                $alert.error(err);
-                $scope.formSearch.setLoading(true);
+                $scope.formSearch.setLoading(false);
             }
         )
     };
@@ -260,8 +259,7 @@ module.controller("SlotTrendencySearchController", ['$scope', '$state','$rootSco
 
 
     angular.element(document).ready(function() {
-        $rootScope.$broadcast("HideDashboard","");
-        $rootScope.$broadcast('RecoverNavbar');
+        $rootScope.$broadcast("HideDashboard");
         $rootScope.$broadcast('ResizePage');
 
     });

@@ -45,10 +45,6 @@ angular.module('supportAdminApp')
             });
             return request.then(
                 function(response) {
-                  var data = JSON.stringify(response);
-                  if(!response){
-                    return response
-                  }
                   if(response.data.code == 0){
                     return response.data.data;
                   }
@@ -65,7 +61,6 @@ angular.module('supportAdminApp')
             var payload = JSON.stringify(userInfo);
             var $http = $injector.get('$http');
 
-
             var request = $http({
                 method: 'POST',
                 url:  API_URL + '/user/register',
@@ -76,10 +71,6 @@ angular.module('supportAdminApp')
             });
             return request.then(
                 function(response) {
-                  var data = JSON.stringify(response);
-                  if(!response){
-                    return response
-                }
                   if(response.data.code == 0){
                     return true;
                   }
@@ -117,10 +108,6 @@ angular.module('supportAdminApp')
                   }
                 },
                 function(error) {
-                  $cookies.remove('token');
-                  $cookies.remove('currentUser');
-                  $cookies.remove('currentUserRole');
-                  $cookies.remove('currentUserState');      
                 }
             );
         };
