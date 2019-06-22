@@ -465,22 +465,27 @@ module.controller('MainController', [
             var date = new Date();
             console.log("整点报时1：  ", date);
 
-            var guid = $interval(function () {
+            var guid = $timeout(function() {
                 var date = new Date();
                 next_clock();
                 console.log("整点报时2：  ", date);
                 $scope.timeAudio(date);
                 mainService.clockLight();
-                $interval.cancel(guid);
             }, $scope.gaptime);
-
+            var clock;
             var next_clock = function(){
+                console.log("执行next clock")
                 $interval(function(){
-                    var date = new Date();
-                    console.log("整点报时3：  ", date);
-                    $scope.timeAudio(date);
-                    mainService.clockLight();
-                }, 3600 * 1000);
+                    console.log("更新时间间隔")
+                    $scope.setGapTime();
+                    $timeout.cancel(clock)
+                    clock = $timeout(function(){
+                        var date = new Date();
+                        console.log("整点报时3：  ", date);
+                        $scope.timeAudio(date);
+                        mainService.clockLight();
+                    },$scope.gaptime)
+                }, 1800 * 1000);
             };
 
             $rootScope.$broadcast('ResizePage');
