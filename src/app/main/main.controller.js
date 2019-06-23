@@ -270,7 +270,7 @@ module.controller('MainController', [
 
         $scope.timeShow = function(trainDate){
             if( !trainDate ){
-                $(".dashboard-icon").attr("title",null);
+                $(".dashboard-icon").attr("title","");
                 return
             }
             var date = trainDate.slice(0, 4) + '-' + trainDate.slice(4, 6) + '-' + trainDate.slice(6, 8) + ' ' +
@@ -400,15 +400,12 @@ module.controller('MainController', [
         };
 
         angular.element(document).ready(function () {
-            if ($location.url() === '/index/main') {
-                $rootScope.$broadcast("ShowDashboard");
-            }
             $('[data-toggle="tooltip"]').tooltip();
 
             if ($cookies.get('currentUser')) {
                 $timeout(function(){
                     $scope.getTrainInfo();
-                },2000);
+                },500);
                 $scope.currentUser.username = $cookies.get('currentUser');
                 $scope.currentUser.userrole = parseInt($cookies.get('currentUserRole'));
             }

@@ -145,7 +145,7 @@
                                         <td style="opacity:1;width: 1px; height:47px;border-top: 0;border-bottom: 1px solid #e7eaec;"></td>
                                         <td ng-repeat="trainOnly in trainInfo.trainDetail" ng-init="innerIndex = $index" style="width: 47px;border-top: 0;border-bottom: 1px solid #e7eaec;">
                                             <a class="dashboard-icon" ng-click="openMainDialog(trainOnly.trainOnlyid,trainOnly.trainDirection,trainOnly.trainDate)"
-                                               data-toggle="tooltip" title="Hooray!" ng-mouseover="timeShow(trainOnly.trainDate)" ng-class="{
+                                               data-toggle="tooltip" ng-mouseover="timeShow(trainOnly.trainDate)" ng-class="{
                                                    upnormal : trainOnly.trainState == 11 && trainOnly.trainDirection == 0,
                                                  downnormal : trainOnly.trainState == 11 && trainOnly.trainDirection == 1,
                                     upexceptionearlywarning : trainOnly.trainState == 6 && trainOnly.trainDirection == 0,
