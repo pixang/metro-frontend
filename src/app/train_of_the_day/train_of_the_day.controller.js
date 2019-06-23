@@ -6,13 +6,10 @@ module.controller("TrainOfTheDayController", ['$scope', '$state','$rootScope','$
     function($scope, $state, $rootScope,$timeout, $mdpDatePicker, $mdpTimePicker, $alert, $const, mainService){
 
         $scope.$on('CurrentDayRecordUpdate', function (event) {
-            $timeout(function () {
-                $('.footable-for-the-day').footable({paginate: false});
-                $('.footable-for-the-day').trigger('footable_redraw');
-                }, 100);
+            $('.footable-for-the-day').footable({paginate: false});
             $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 800);
+                $('.footable-for-the-day').trigger('footable_redraw');
+            },100);
         });
 
         $scope.form = {
@@ -26,7 +23,7 @@ module.controller("TrainOfTheDayController", ['$scope', '$state','$rootScope','$
             }
         };
         $scope.backToMainPage = function(){
-            $rootScope.$broadcast("ShowDashboard","wusuowei");
+            $rootScope.$broadcast("ShowDashboard");
             $state.go('index.main');
         };
 
@@ -81,7 +78,6 @@ module.controller("TrainOfTheDayController", ['$scope', '$state','$rootScope','$
         };
         $scope.currentDayRecords = [];
 
-
         $scope.exportToCsv = function () {
             var csvString = "车号,行车日期,主控端,电机号,气隙最小值,第3齿左气隙最小值,第3齿右气隙最小值,第73齿左气隙最小值,第73齿右气隙最小值,温度最小值,温度最大值" + "\n";
 
@@ -107,11 +103,9 @@ module.controller("TrainOfTheDayController", ['$scope', '$state','$rootScope','$
             a.remove();
         };
 
-
         angular.element(document).ready(function() {
             $('.footable-for-the-day').footable({paginate: false});
-            $rootScope.$broadcast("HideDashboard","wusuowei");
+            $rootScope.$broadcast("HideDashboard");
             $scope.getCurrentDayData();
-            $rootScope.$broadcast('ResizePage');
         });
     }]);

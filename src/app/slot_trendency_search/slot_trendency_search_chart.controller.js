@@ -4,8 +4,6 @@ var module = angular.module('supportAdminApp');
 
 module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$rootScope','$timeout','$mdpDatePicker', '$mdpTimePicker','Alert','SlotTrendencyService','constants',
     function($scope, $state, $rootScope,$timeout, $mdpDatePicker, $mdpTimePicker, $alert, slotTrendencyService,$const){
-
-
     // fixed data
     $scope.line = $const.LINE;
     $scope.station = $const.STATION;
@@ -139,7 +137,6 @@ module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$ro
                 }else{
                     $scope.tickInterval = 12;
                 }
-
                 $scope.$broadcast('SlotChartDataUpdated');
             },
             function(err){
@@ -149,14 +146,6 @@ module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$ro
     };
 
     $scope.$on('SlotChartDataUpdated', function(event){
-        $timeout(function(){
-            $rootScope.$broadcast('ResizePage');
-        }, 100);
-    });
-
-
-    $scope.$on('SlotChartDataUpdated', function(event){
-    
         var firstChart = null;
         firstChart = new Highcharts.Chart({
             chart: {
@@ -266,6 +255,5 @@ module.controller("SlotTrendencySearchChartController", ['$scope', '$state','$ro
 
     angular.element(document).ready(function() {
         $rootScope.$broadcast("HideDashboard");
-        $rootScope.$broadcast('ResizePage');
       });
 }]);

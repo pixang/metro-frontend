@@ -41,8 +41,6 @@ angular.module('supportAdminApp')
         });
         return request.then(
             function(response) {
-              var data = JSON.stringify(response.data);
-
               if(response.data.code == 0){
                   return response.data.data;
               }
@@ -50,7 +48,6 @@ angular.module('supportAdminApp')
                   return response.data.msg;
               }
             },
-
             function(error) {
               return $q.reject({error : error});
             }

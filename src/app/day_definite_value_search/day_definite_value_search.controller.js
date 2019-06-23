@@ -11,10 +11,7 @@ module.controller("DayDefiniteValueSearchController", ['$scope', '$state','$root
     $scope.$on('ToothTableDataUpdated', function(event){
         $timeout(function(){
             $('.footable').trigger('footable_redraw');
-        }, 10);
-        $timeout(function(){
-            $rootScope.$broadcast('ResizePage');
-        }, 1000);
+        },100);
     });
 
     // fixed data
@@ -127,8 +124,6 @@ module.controller("DayDefiniteValueSearchController", ['$scope', '$state','$root
 
             csvString = csvString.substring(0,csvString.length - 1);
             csvString = csvString + "\n";
-
-
         }
         csvString =  "\uFEFF" + csvString.substring(0, csvString.length - 1);
 
@@ -140,7 +135,6 @@ module.controller("DayDefiniteValueSearchController", ['$scope', '$state','$root
         a[0].click();
         a.remove();
     };
-
 
     $scope.pagination = {
         current: 1,
@@ -210,9 +204,7 @@ module.controller("DayDefiniteValueSearchController", ['$scope', '$state','$root
         }
     }
 
-
     angular.element(document).ready(function() {
-        $rootScope.$broadcast("HideDashboard","");
-        $rootScope.$broadcast('ResizePage');
+        $rootScope.$broadcast("HideDashboard");
     });
 }]);

@@ -88,8 +88,14 @@ module.controller('MainController', [
                             $scope.warningLight(currentState,trainId,trainOnlyId);
                         }
                     },
-                    function (err) {
-                        $alert.error(err.error, $scope);
+                    function(err){
+                        $alert.error('请求最新过车数据失败，将清空缓存，加载全局数据');
+                        initTrainsInfo();
+                        sessionStorage.removeItem('isRunning');
+                        localStorage.removeItem("trainsInfo");
+                        $timeout(function(){
+                            $scope.getTrainInfo();
+                        },200)
                     }
                 )
             } else {
@@ -123,9 +129,6 @@ module.controller('MainController', [
                         objectForTrainsInfo.trainsInfo = $scope.trainsInfo;
                         localStorage.setItem("trainsInfo", JSON.stringify(objectForTrainsInfo));
                         sessionStorage.setItem('isRunning', "Y");
-                    },
-                    function (err) {
-                        $alert.error(err.error, $scope);
                     }
                 )
             }
@@ -212,27 +215,6 @@ module.controller('MainController', [
                 $scope.currentUser.username = $cookies.get('currentUser');
                 $scope.currentUser.userrole = parseInt($cookies.get('currentUserRole'));
             }
-            $timeout(function () {
-                fix_mainpage_height();
-            }, 300);
-        });
-
-        $scope.$on("ResizePage", function (event) {
-            if ($location.url() === '/index/main') {
-                $timeout(function () {
-                    fix_mainpage_height();
-                }, 500);
-                return
-            }
-            if ($location.url() == '/auth') {
-                $timeout(function () {
-                    fix_auth_height();
-                }, 0);
-                return
-            }
-            $timeout(function () {
-                fix_height()
-            }, 200);
         });
 
         $scope.$on("ResizeAuthPage", function (event, msg) {
@@ -252,16 +234,12 @@ module.controller('MainController', [
                 $alert.clear();
                 $alert.error('登陆状态失效，请重新登陆', $rootScope);
             }
-
-            $timeout(function () {
-                fix_auth_height()
-            }, 100);
         });
 
 
         // call from side-nav
         $scope.toMainPage = function () {
-            $rootScope.$broadcast("ShowDashboard", "wusuowei");
+            $rootScope.$broadcast("ShowDashboard");
             $state.go('index.main');
         };
 
@@ -399,12 +377,6 @@ module.controller('MainController', [
             }
         };
 
-        $scope.resizeForToggle = function () {
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            },1000);
-        };
-
         $scope.changePassword = function () {
             var modalInstance = $modal.open({
                 size: 'md',
@@ -433,13 +405,10 @@ module.controller('MainController', [
             }
             $('[data-toggle="tooltip"]').tooltip();
 
-            $(window).bind("resize", function () {
-                $rootScope.$broadcast('ResizePage');
-            });
-
             if ($cookies.get('currentUser')) {
-                $scope.getTrainInfo();
-
+                $timeout(function(){
+                    $scope.getTrainInfo();
+                },2000);
                 $scope.currentUser.username = $cookies.get('currentUser');
                 $scope.currentUser.userrole = parseInt($cookies.get('currentUserRole'));
             }
@@ -462,75 +431,29 @@ module.controller('MainController', [
 
             // 整点报时
             $scope.setGapTime();
-            var date = new Date();
-            console.log("整点报时1：  ", date);
 
             var guid = $timeout(function() {
                 var date = new Date();
                 next_clock();
-                console.log("整点报时2：  ", date);
+                console.log("整点报时：  ", date);
                 $scope.timeAudio(date);
                 mainService.clockLight();
             }, $scope.gaptime);
             var clock;
             var next_clock = function(){
-                console.log("执行next clock")
                 $interval(function(){
                     console.log("更新时间间隔")
                     $scope.setGapTime();
                     $timeout.cancel(clock)
                     clock = $timeout(function(){
                         var date = new Date();
-                        console.log("整点报时3：  ", date);
+                        console.log("整点报时：  ", date);
                         $scope.timeAudio(date);
                         mainService.clockLight();
                     },$scope.gaptime)
                 }, 1800 * 1000);
             };
-
-            $rootScope.$broadcast('ResizePage');
         });
-
-        function fix_height() {
-            var windowHeigh = $(window).height();
-            var realcontentHeigh = $(".real-content").height() + $(".second-header").height() + 162;
-
-            if (realcontentHeigh > windowHeigh) {
-                $('body').css("height", realcontentHeigh + "px");
-                $('#page-wrapper').css("height", realcontentHeigh + "px");
-                $('#sidebar-wrapper').css("height", realcontentHeigh + "px");
-            } else {
-                $('#page-wrapper').css("height", windowHeigh + "px");
-                $('body').css("height", windowHeigh + "px");
-                $('#sidebar-wrapper').css("height", windowHeigh + "px");
-            }
-            if ($('body').hasClass('fixed-nav')) {
-                $('#page-wrapper').css("height", $(window).height() - 60 + "px");
-            }
-        }
-
-        function fix_mainpage_height() {
-            var windowHeigh = $(window).height();
-            var realcontentHeigh = $const.TRAIN_ID.length * 47 + $(".main-page-tips").height() + 240;
-
-            if (realcontentHeigh > windowHeigh) {
-                $('body').css("height", realcontentHeigh + "px");
-                $('#page-wrapper').css("height", realcontentHeigh + "px");
-                $('#sidebar-wrapper').css("height", realcontentHeigh + "px");
-            } else {
-                $('#page-wrapper').css("height", windowHeigh + "px");
-                $('body').css("height", windowHeigh + "px");
-                $('#sidebar-wrapper').css("height", windowHeigh + "px");
-            }
-            if ($('body').hasClass('fixed-nav')) {
-                $('#page-wrapper').css("height", $(window).height() - 60 + "px");
-            }
-        }
-
-        function fix_auth_height() {
-            $('body').css("height", ($(window).height() + 100) + "px");
-            $('.auth-content').css("height", $('body').height() + "px");
-        }
     }
 ]);
 
@@ -554,10 +477,8 @@ module.controller('CurrentdayDialog', [
         };
 
         $scope.$on('CurrentDayRecordUpdate', function (event) {
-            $timeout(function () {
-                $('.footable-for-dialog').footable({paginate: false});
-                $('.footable-for-dialog').trigger('footable_redraw');
-            }, 100);
+            $('.footable-for-dialog').footable({paginate: false});
+            $('.footable-for-dialog').trigger('footable_redraw');
         });
 
         $scope.getCurrentDayData = function () {
@@ -713,7 +634,6 @@ module.controller('WarningDialogController', [
         $scope.$on('WarningRecordUpdate', function (event) {
             $timeout(function () {
                 $('.footable-for-warning').trigger('footable_redraw');
-
             }, 100);
         });
 

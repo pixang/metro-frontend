@@ -4,17 +4,13 @@ var module = angular.module('supportAdminApp');
 
 module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$uibModal','Alert','UserManageService',
     function($scope, $state, $rootScope,$timeout, $modal, $alert, userManageService){
-
     // footable
     angular.element(document).ready(function () {
         $('.footable').footable({ paginate:false });
     });
       
     $scope.$on('UserTableUpdated', function(){
-        $timeout(function(){
-            $('.footable').trigger('footable_redraw');
-            $rootScope.$broadcast('ResizePage');   
-        }, 100);
+        $('.footable').trigger('footable_redraw');
     });
 
     // fixed data
@@ -68,7 +64,6 @@ module.controller("UserMangae", ['$scope', '$state','$rootScope','$timeout','$ui
     angular.element(document).ready(function() {
         $rootScope.$broadcast("HideDashboard");
         $scope.search();
-        $rootScope.$broadcast('ResizePage');
     });
 }]);
 

@@ -29,7 +29,6 @@ module.controller("DeviceStatus", ['$scope', '$state','$rootScope','$timeout','$
             temState: ''
         };
 
-
         $scope.searchThresholdData = function(){
                 
             $scope.formSearch.setLoading(true);
@@ -68,13 +67,11 @@ module.controller("DeviceStatus", ['$scope', '$state','$rootScope','$timeout','$
         $scope.searchThresholdData();
 
         $scope.backFromConfigurationPage = function() {
-            $rootScope.$broadcast("ShowDashboard","wusuowei");
+            $rootScope.$broadcast("ShowDashboard");
             $state.go('index.main');
         };
 
         angular.element(document).ready(function() {
-            $rootScope.$broadcast("HideDashboard","wusuowei");
-            $rootScope.$broadcast('ResizePage');
-
+            $rootScope.$broadcast("HideDashboard");
         });
 }]);

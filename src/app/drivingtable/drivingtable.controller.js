@@ -11,13 +11,10 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
         $scope.showMotorTable = false;
         
         $scope.$on('ReportDataUpdated', function(){
+            $('.footable-driving-table').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-driving-table').footable({ paginate:false });
                 $('.footable-driving-table').trigger('footable_redraw');
-                $timeout(function(){
-                    $rootScope.$broadcast('ResizePage');
-                }, 800);
-            },100);
+            },100)
         });
         $scope.$on("ShowReportSearch", function () {
             $scope.showReportSearch = true;
@@ -34,28 +31,16 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
             $scope.$broadcast('DetailMotorDataUpdated');
         });
         $scope.$on('DetailMotorDataUpdated', function(event){
+            $('.footable-for-motor').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-for-motor').footable({ paginate:false });
                 $('.footable-for-motor').trigger('footable_redraw');
-            }, 0);
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 900);
+            },100)
         });
         $scope.$on('DetailMotorGearRecordsUpdated', function(event){
+            $('.footable-for-gear').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-for-gear').footable({ paginate:false });
                 $('.footable-for-gear').trigger('footable_redraw');
-            }, 0);
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 900);
-        });
-
-        $scope.$on('DetailMotorLaserRecordsUpdated', function(){
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 100);
+            },100)
         });
 
         $scope.$on('DetailMotorLaserRecordsUpdated', function(){
@@ -372,7 +357,6 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
         $scope.right = [];
 
          // 电机查询参数及时间显示
-        
          $scope.trianOnlyIdForMotor = '';
          $scope.trainDirectionForMotor = '';
          $scope.trianDateForMotor = '';
@@ -530,12 +514,9 @@ module.controller("DrivingTableController", ['$scope', '$state','$rootScope','$t
             }
         }
 
-
         angular.element(document).ready(function() {
             $('.footable-driving-table').footable({ paginate:false });
-            $rootScope.$broadcast("HideDashboard","");
+            $rootScope.$broadcast("HideDashboard");
             $scope.search();
-            $rootScope.$broadcast('ResizePage');
-
         });
     }]);

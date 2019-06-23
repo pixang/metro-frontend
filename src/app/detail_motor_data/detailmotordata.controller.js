@@ -10,21 +10,17 @@ module.controller('DetailMotorDataController', [
         $scope.showMotorTable = false;
 
         $scope.$on('DetailMotorDataUpdated', function(event){
+            $('.footable-for-motor').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-for-motor').footable({ paginate:false });
                 $('.footable-for-motor').trigger('footable_redraw');
-               $rootScope.$broadcast('ResizePage');
-            }, 100);
+            },100);
         });
 
         $scope.$on('DetailMotorGearRecordsUpdated', function(event){
+            $('.footable-for-gear').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-for-gear').footable({ paginate:false });
                 $('.footable-for-gear').trigger('footable_redraw');
-            }, 0);
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 900);
+            },100);
         });
 
         $scope.$on("ShowDashboard", function () {
@@ -87,7 +83,6 @@ module.controller('DetailMotorDataController', [
         $scope.trainDate = $stateParams.trainDate;
         $scope.search = function(trainOnlyId, trainDirection) {
             $alert.clear();
-            var err = [];
 
             if (trainOnlyId == null || trainDirection == null){
                 $alert.error("数据已丢失，请从主页面重新选择！");
@@ -124,7 +119,7 @@ module.controller('DetailMotorDataController', [
             var err = [];
 
             if (trainOnlyId == null || trainDirection == null || motorNum == null){
-                $alert.error("此页面不可刷新，请返回并重新选择！");
+                $alert.error("请返回并重新选择车号！");
                 return 
             }
             var searchCondition = {};
@@ -212,10 +207,7 @@ module.controller('DetailMotorDataController', [
         $scope.right = [];
 
         $scope.$on('DetailMotorLaserRecordsUpdated', function(event){
-            $timeout(function(){
-                $rootScope.$broadcast('RecoverNavbar');
                 $rootScope.$broadcast('ResizePage');
-            }, 100);
         });
     
         $scope.$on('DetailMotorLaserRecordsUpdated', function(event){
@@ -373,7 +365,6 @@ module.controller('DetailMotorDataController', [
             a.remove();
         };
 
-
         $scope.onChange = function(){
             $scope.searchGearDate($stateParams.trainOnlyId , $stateParams.trainDirection,$scope.formSearch.motorNum);
         };
@@ -388,8 +379,6 @@ module.controller('DetailMotorDataController', [
             },300);
             $('.footable-for-gear').footable({ paginate:false });
             $('.footable-for-motor').footable({ paginate:false });
-            $rootScope.$broadcast('RecoverNavbar');
-            $rootScope.$broadcast('ResizePage');
         });
     }
 ]);

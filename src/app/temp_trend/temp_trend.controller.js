@@ -9,12 +9,7 @@ module.controller("TempTrendController", ['$scope', '$state','$rootScope','$time
     });
       
     $scope.$on('GearTableDataUpdated', function(){
-        $timeout(function(){
-            $rootScope.$broadcast('ResizePage');
-        }, 900);
-        $timeout(function(){
-            $('.footable').trigger('footable_redraw');
-        }, 100);
+        $('.footable').trigger('footable_redraw');
     });
 
     $scope.selectedItem  = null;
@@ -139,13 +134,6 @@ module.controller("TempTrendController", ['$scope', '$state','$rootScope','$time
     };
     $scope.gearTrendencyRecords = [];
 
-
-    $scope.$on('GearChartDataUpdated', function(event){
-        $timeout(function(){
-            $rootScope.$broadcast('ResizePage');
-        }, 100);
-    });
-
     $scope.$on('GearChartDataUpdated', function(event){
         var dafaultMenuItem = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
 
@@ -191,11 +179,8 @@ module.controller("TempTrendController", ['$scope', '$state','$rootScope','$time
             }
         });
     });
-
-
+    
     angular.element(document).ready(function() {
         $rootScope.$broadcast("HideDashboard");
-        $rootScope.$broadcast('ResizePage');
-
     });
 }]);

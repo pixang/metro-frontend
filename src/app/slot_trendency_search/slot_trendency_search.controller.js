@@ -13,10 +13,6 @@ module.controller("SlotTrendencySearchController", ['$scope', '$state','$rootSco
     $scope.$on('SlotTableDataUpdated', function(event){
         $timeout(function(){
             $('.footable').trigger('footable_redraw');
-            $rootScope.$broadcast('ResizePage');
-        }, 900);
-        $timeout(function(){
-            $('.footable').trigger('footable_redraw');
         }, 100);
     });
 

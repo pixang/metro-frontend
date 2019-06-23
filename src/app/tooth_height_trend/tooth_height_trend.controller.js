@@ -4,7 +4,6 @@ var module = angular.module('supportAdminApp');
 
 module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope','$timeout','$mdpDatePicker', '$mdpTimePicker','Alert','ToothHeightTrendService','constants',
     function($scope, $state, $rootScope,$timeout, $mdpDatePicker, $mdpTimePicker, $alert, toothHeightTrendService, $const){
-
     // footable
     angular.element(document).ready(function () {
         $('.footable').footable({ paginate:false });
@@ -12,11 +11,8 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
       
     $scope.$on('GearTableDataUpdated', function(){
         $timeout(function(){
-            $rootScope.$broadcast('ResizePage');
-        }, 900);
-        $timeout(function(){
             $('.footable').trigger('footable_redraw');
-        }, 100);
+        },100);
     });
 
     $scope.selectedItem  = null;
@@ -237,14 +233,6 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
         a.remove();
     };
 
-
-    $scope.$on('GearChartDataUpdated', function(event){
-        $timeout(function(){
-            $rootScope.$broadcast('ResizePage');
-        }, 100);
-    });
-
-
     $scope.$on('GearChartDataUpdated', function(event){
         var dafaultMenuItem = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
 
@@ -298,7 +286,6 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
             
         });
     });
-
 
     $scope.$on('GearChartDataUpdated', function(event){
         var dafaultMenuItem = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
@@ -423,6 +410,5 @@ module.controller("ToothHeightTrendController", ['$scope', '$state','$rootScope'
     }
     angular.element(document).ready(function() {
         $rootScope.$broadcast("HideDashboard");
-        $rootScope.$broadcast('ResizePage');
     });
 }]);

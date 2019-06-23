@@ -8,11 +8,12 @@ angular.module('supportAdminApp')
                     config.headers.Authorization = 'Bearer ' + $cookies.get('token');
                     config.headers.currentUser = $cookies.get('currentUser');
                 }
+                console.log('config: ' + JSON.stringify(config))
                 return config;
             },
             'responseError': function(response) {
                 console.log("interceptor:  "  + JSON.stringify(response));
-
+                
                 if (response.status == -1){
                     $alert.clear();
                     $alert.warning("与服务器失去连接。");

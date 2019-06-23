@@ -10,7 +10,6 @@ angular.module('supportAdminApp')
       var ReportSearchService = {};
 
       ReportSearchService.retrieveRecord = function(searchCondition){
-
         var payload = JSON.stringify(searchCondition);
 
         var request = $http({

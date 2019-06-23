@@ -42,7 +42,11 @@
         }
     });
     function resizeChart() {
-        $('#firstChart').highcharts().reflow();
-        $('#secondChart').highcharts().reflow();
+        if($('#firstChart').highcharts()){
+            $('#firstChart').highcharts().reflow();
+        }
+        if($('#secondChart').highcharts()){
+            $('#secondChart').highcharts().reflow();
+        }
     }
 </script>

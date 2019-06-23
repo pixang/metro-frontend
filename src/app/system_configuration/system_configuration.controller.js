@@ -97,7 +97,7 @@ module.controller("SystemConfiguration", ['$scope', '$state','$rootScope','$time
                     $scope.formSearch.setLoading(false);
                 },
                 function(err){
-
+                    $scope.formSearch.setLoading(false);
                 }
             )
         };
@@ -269,7 +269,5 @@ module.controller("SystemConfiguration", ['$scope', '$state','$rootScope','$time
 
         angular.element(document).ready(function() {
             $rootScope.$broadcast("HideDashboard");
-            $rootScope.$broadcast('ResizePage');
-
         });
 }]);

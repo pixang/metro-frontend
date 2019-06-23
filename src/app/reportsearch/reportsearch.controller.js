@@ -11,31 +11,20 @@ module.controller("ReportSearchController", ['$scope', '$state','$rootScope','$t
         $scope.showMotorTable = false;
 
         $scope.$on('ReportDataUpdated', function(event){
+            $('.footable-report-search').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-report-search').footable({ paginate:false });
                 $('.footable-report-search').trigger('footable_redraw');
-            }, 100);
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 900);
+            },100)
         });
         $scope.$on("ShowReportSearch",
             function (event,msg) {
             $scope.showReportSearch = true;
             $scope.hideDetailMotorData = true;
-
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            },100);
         });
         $scope.$on("HideReportSearch",
             function (event,msg) {
             $scope.showReportSearch = false;
             $scope.hideDetailMotorData = false;
-
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            },100);
         });
         $scope.$on("ShowDetailMotorData",
             function (event,msg) {
@@ -43,18 +32,12 @@ module.controller("ReportSearchController", ['$scope', '$state','$rootScope','$t
             $scope.hideDetailMotorData = false;
             $scope.showMotorWave = false;
             $scope.showMotorTable = false;
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            },100);
         });
         $scope.$on('DetailMotorDataUpdated', function(event){
+            $('.footable-for-motor').footable({ paginate:false });
             $timeout(function(){
-                $('.footable-for-motor').footable({ paginate:false });
                 $('.footable-for-motor').trigger('footable_redraw');
             }, 100);
-            $timeout(function(){
-                $rootScope.$broadcast('ResizePage');
-            }, 900);
         });
         $scope.$on('DetailMotorGearRecordsUpdated', function(event){
             $timeout(function() {
@@ -65,12 +48,12 @@ module.controller("ReportSearchController", ['$scope', '$state','$rootScope','$t
             },300);
         });
         $scope.$on('DetailMotorLaserRecordsUpdated', function(event){
-            $timeout(function() {
-                var realcontentHeigh = $(".real-content-wave").height() + $(".second-header").height() + 210;
-                $('body').css("height", realcontentHeigh + "px");
-                $('#page-wrapper').css("height", realcontentHeigh + "px");
-                $('#sidebar-wrapper').css("height", realcontentHeigh + "px");
-            },300);
+            // $timeout(function() {
+            //     var realcontentHeigh = $(".real-content-wave").height() + $(".second-header").height() + 210;
+            //     $('body').css("height", realcontentHeigh + "px");
+            //     $('#page-wrapper').css("height", realcontentHeigh + "px");
+            //     $('#sidebar-wrapper').css("height", realcontentHeigh + "px");
+            // },300);
         });
         $scope.line = $const.LINE;
         $scope.station = $const.STATION;
@@ -658,11 +641,8 @@ module.controller("ReportSearchController", ['$scope', '$state','$rootScope','$t
                 return i;
             }
         }
-
-
         angular.element(document).ready(function() {
-            $rootScope.$broadcast("HideDashboard","");
+            $rootScope.$broadcast("HideDashboard");
             $('.footable').footable({ paginate:false });
-            $rootScope.$broadcast('ResizePage');
         });
 }]);
